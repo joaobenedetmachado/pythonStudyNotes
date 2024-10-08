@@ -66,17 +66,19 @@ while True:
   if escolha == "2":
     tabela = input("Qual tabela deseja alterar [nomeproduto / valorproduto]?:  ")
     condicao = int(input("Digite o id que deseja alterar: "))
-    
+
     comandoSQL = f"SELECT * FROM produtos"
     cursor.execute(comandoSQL)
-    resultado = cursor.fetchall() 
-    
-    if condicao in resultado[0]:
-      # print("existe")
-      novoValor = input(f"Novo valor para o {condicao}: ").title()
-      UpdateDB(tabela, novoValor, condicao)
+    resultado = cursor.fetchall()  
+
+    ids_existentes = [linha[0] for linha in resultado] 
+
+    if condicao in ids_existentes:
+        novoValor = input(f"Novo valor para o {tabela}: ").title()
+        UpdateDB(tabela, novoValor, condicao)
     else:
-      print(f"ID {id} não encontrado")
+        print(f"ID {condicao} não encontrado")
+
     
   if escolha == "3":
     idproduto = int(input("Digite o id do produto que deseja excluir: "))
